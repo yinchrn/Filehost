@@ -1,0 +1,34 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/mybatis?useSSL=false&useUnicode=ture&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: 150011
+    type: com.alibaba.druid.pool.DruidDataSource
+    # 配置Thymeleaf模板引擎
+  thymeleaf:
+    prefix: classpath:/templates/  # 设置模板文件的位置，这里为templates目录下
+    suffix: .html  # 设置模板文件的后缀名
+    cache: false  # 禁用模板缓存
+    mode: HTML  # 设置模板模式为HTML
+    #上传文件设置
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 100MB
+      max-request-size: 100MB
+
+
+
+page helper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  type-aliases-package: com.yinchrn.demo5.pojo
+  mapper-locations: classpath:mapper/*.xml
+server:
+  port: 8081

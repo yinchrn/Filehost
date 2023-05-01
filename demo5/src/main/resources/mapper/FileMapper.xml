@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yinchrn.demo5.mapper.FileMapper">
+    <sql id="all_param">
+        id, type, name, size, local_name, observed_size, uid, create_date
+    </sql>
+    <select id="findMyFiles" parameterType="int" resultType="MyFile">
+        select <include refid="all_param"/>
+            from file where uid = #{uid}
+    </select>
+    <insert id="uploadFile" parameterType="MyFile">
+        insert into file (type, name, size, local_name, observed_size, uid, create_date)
+            values (#{type}, #{name}, #{size}, #{local_name}, #{observed_size}, #{uid}, #{create_date})
+    </insert>
+    <select id="getFile" parameterType="map" resultType="MyFile">
+        select <include refid="all_param"/> from file where uid = #{uid} and id = #{id}
+    </select>
+    <delete id="deleteFile" parameterType="map">
+        delete from file where id = #{id} and uid = #{uid}
+    </delete>
+    <delete id="deleteMyFiles" parameterType="int">
+        delete from file where uid = #{uid}
+    </delete>
+    <select id="queryMyFile" parameterType="map" resultType="MyFile">
+        select <include refid="all_param"/> from file where uid = #{uid}
+            and name like concat('%', #{name}, '%')
+    </select>
+    <update id="modifyMyFile" parameterType="map">
+        update file set name = #{name} where id = #{id} and uid = #{uid} and type = #{type}
+    </update>
+</mapper>

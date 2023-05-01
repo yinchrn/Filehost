@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yinchrn.demo5.mapper.ShareMapper">
+    <insert id="createShareKey" parameterType="ShareLink">
+        insert into share (fid, uid, link, create_date)
+            values (#{fid}, #{uid}, #{link}, #{create_date})
+    </insert>
+    <select id="getSharedLink" parameterType="String" resultType="ShareLink">
+        select id, uid, fid, link, create_date from share where link = #{link}
+    </select>
+    <delete id="destroySharedLink" parameterType="int">
+        delete from share where id = #{id}
+    </delete>
+    
+</mapper>

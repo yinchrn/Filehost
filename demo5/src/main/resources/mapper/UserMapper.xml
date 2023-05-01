@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yinchrn.demo5.mapper.UserMapper">
+    <sql id="user_properties">
+        select id,username,password from User
+    </sql>
+
+    <select id="findByUsername" resultType="UserAccount" parameterType="String">
+        <include refid="user_properties"/> where username = #{username}
+    </select>
+
+    <insert id="register" parameterType="UserAccount">
+        insert into User (username,password) values (#{username},#{password})
+    </insert>
+
+    <delete id="deleteMyAccount" parameterType="int">
+        delete from User where id = #{id}
+    </delete>
+</mapper>
