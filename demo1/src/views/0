@@ -1,0 +1,121 @@
+<template>
+  <div>
+    <form class="login">
+      <h2 class="title">登录</h2>
+      <label>username:</label>
+      <input type="text" v-model="login.username" placeholder="Enter your username..." class="input-area" /><br />
+      <label>password:</label>
+      <input type="password" v-model="login.password" placeholder="Enter your password..." class="input-area" /><br />
+      <el-checkbox v-model="login.remember" class="checkbox">Remember me</el-checkbox>
+      <button class="button" @click.prevent="onSubmit">login</button>
+
+    </form> 
+  </div>
+  </template>
+  
+  <script>
+  import qs from 'qs';
+  import axios from 'axios';
+  export default {
+    data() {
+      return {
+        msg:'',
+        login: {
+          username: '10',
+          password: '123456',
+          remember: ''
+        },
+      };
+    },
+    methods: {
+      onSubmit() {
+        axios({
+          method: 'post',
+          url: '/doLogin',
+          data:qs.stringify({
+            'username': this.login.username,
+            'password': this.login.password,
+            'remember': this.login.remember
+          }),  
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          }
+        }).then((response) => {
+          if (response.status == 200) {
+            let json = response.data;
+            if (json.param == 'success') {
+              this.$message.success(json.msg)
+              this.$router.push({ path: '/about' });
+            } else {
+                this.$message.error(json.msg)
+            }
+          } else {
+            this.$message.warning('找不到服务器⊙﹏⊙∥!')
+          }
+        });
+      },
+    },
+  };
+  </script>
+  
+
+<style>
+.title{
+  text-align: center;
+  letter-spacing: 0.4em;
+}
+.login {
+  text-align: left;
+    background-color: white;
+    width: 350px;
+    margin: 100px auto 0;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+label {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.input-area {
+    display: block;
+    width: 100%;
+    height: 40px;
+    margin: 10px 0;
+    padding: 5px 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: none;
+    background-color: #f2f2f2;
+}
+
+.button {
+    display: block;
+    width: 100%;
+    height: 50px;
+    margin-top: 20px;
+    padding: 5px 10px;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    background-color: #333;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+
+.button:hover {
+    background-color: #555;
+}
+
+
+
+
+</style>
